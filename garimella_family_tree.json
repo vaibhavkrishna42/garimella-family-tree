@@ -1,0 +1,1261 @@
+{
+  "nodes": {
+    "root": {
+      "id": "root",
+      "name": "Markandeyulu Garimella Sr.",
+      "nick": "",
+      "gender": "male",
+      "rel": null,
+      "parentId": null,
+      "x": 3827.875,
+      "y": 300
+    },
+    "n1": {
+      "id": "n1",
+      "name": "Kuppamma",
+      "nick": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "root",
+      "x": 3993.875,
+      "y": 300
+    },
+    "n8": {
+      "id": "n8",
+      "name": "Krishnamurthy",
+      "nick": "Kitta",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "root",
+      "x": 1196.75,
+      "y": 480,
+      "dob": "27 Oct 1927"
+    },
+    "n9": {
+      "id": "n9",
+      "name": "Kuppuswamy",
+      "nick": "Kuppa",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "root",
+      "x": 3262.5,
+      "y": 480,
+      "dob": "11 Apr 1932"
+    },
+    "n12": {
+      "id": "n12",
+      "name": "Vallidevasena",
+      "nick": "Janaki",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n8",
+      "x": 1362.75,
+      "y": 480
+    },
+    "n13": {
+      "id": "n13",
+      "name": "Gomathi",
+      "nick": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n9",
+      "x": 3428.5,
+      "y": 480
+    },
+    "n21": {
+      "id": "n21",
+      "name": "Chinnikrishna",
+      "nick": "Chinni",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "root",
+      "x": 4493,
+      "y": 480,
+      "dob": "11 Jul 1935"
+    },
+    "n22": {
+      "id": "n22",
+      "name": "Girija",
+      "nick": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n21",
+      "x": 4659,
+      "y": 480,
+      "dob": "30 Jul 1942"
+    },
+    "n23": {
+      "id": "n23",
+      "name": "Radhakrishna",
+      "nick": "Radha",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "root",
+      "x": 5403.75,
+      "y": 480,
+      "dob": "08 Aug 1937"
+    },
+    "n24": {
+      "id": "n24",
+      "name": "Bhagirathi",
+      "nick": "Bhagi",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n23",
+      "x": 5569.75,
+      "y": 480
+    },
+    "n25": {
+      "id": "n25",
+      "name": "Ananthalakshmi",
+      "nick": "Anantha attha",
+      "dob": "1939",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "root",
+      "x": 6459,
+      "y": 480
+    },
+    "n26": {
+      "id": "n26",
+      "name": "Subbusundaramma",
+      "nick": "Sundari",
+      "dob": "1931",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "root",
+      "x": 2306,
+      "y": 480
+    },
+    "n27": {
+      "id": "n27",
+      "name": "Sadashivam",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n26",
+      "x": 2472,
+      "y": 480
+    },
+    "n28": {
+      "id": "n28",
+      "name": "Satyanarayana Narumanchi",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n25",
+      "x": 6625,
+      "y": 480
+    },
+    "n29": {
+      "id": "n29",
+      "name": "Vasumathi",
+      "nick": "",
+      "dob": "25 Mar 1954",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n8",
+      "x": 491,
+      "y": 660
+    },
+    "n30": {
+      "id": "n30",
+      "name": "Satyanarayana",
+      "nick": "Raja",
+      "dob": "17 July 1949",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n29",
+      "x": 657,
+      "y": 660
+    },
+    "n31": {
+      "id": "n31",
+      "name": "Markandeyulu",
+      "nick": "Chanda",
+      "dob": "28 Nov 1958",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n8",
+      "x": 1034,
+      "y": 660
+    },
+    "n33": {
+      "id": "n33",
+      "name": "Vani",
+      "nick": "",
+      "dob": "03 Sep 1966",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n31",
+      "x": 1200,
+      "y": 660
+    },
+    "n34": {
+      "id": "n34",
+      "name": "Ravindranath",
+      "nick": "Ravi",
+      "dob": "11 May 1961",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n8",
+      "x": 1406,
+      "y": 660
+    },
+    "n35": {
+      "id": "n35",
+      "name": "Suresh",
+      "nick": "",
+      "dob": "11 Jul 1962",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n8",
+      "x": 1902.5,
+      "y": 660
+    },
+    "n36": {
+      "id": "n36",
+      "name": "Sandhya",
+      "nick": "",
+      "dob": "15 Mar 1966",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n35",
+      "x": 2068.5,
+      "y": 660
+    },
+    "n37": {
+      "id": "n37",
+      "name": "Markandeyulu",
+      "nick": "Sudha",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n9",
+      "x": 2761,
+      "y": 660
+    },
+    "n38": {
+      "id": "n38",
+      "name": "Venkateshwarulu",
+      "nick": "Ramesh",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n9",
+      "x": 3350.5,
+      "y": 660
+    },
+    "n39": {
+      "id": "n39",
+      "name": "Sudhashree",
+      "nick": "Sudha",
+      "dob": "18 Jul 1968",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n34",
+      "x": 1572,
+      "y": 660
+    },
+    "n40": {
+      "id": "n40",
+      "name": "Krishnamurthy",
+      "nick": "Gandhi",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n9",
+      "x": 3764,
+      "y": 660
+    },
+    "n41": {
+      "id": "n41",
+      "name": "Satyavani",
+      "nick": "Chinna Vani",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n37",
+      "x": 2927,
+      "y": 660
+    },
+    "n42": {
+      "id": "n42",
+      "name": "Umamaheshwari",
+      "nick": "Uma",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n38",
+      "x": 3516.5,
+      "y": 660
+    },
+    "n43": {
+      "id": "n43",
+      "name": "Radha",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n40",
+      "x": 3930,
+      "y": 660
+    },
+    "n44": {
+      "id": "n44",
+      "name": "Markandeyulu",
+      "nick": "Raghava",
+      "dob": "16 May 1968",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n21",
+      "x": 4136,
+      "y": 660
+    },
+    "n45": {
+      "id": "n45",
+      "name": "Vijaya",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n21",
+      "x": 4498,
+      "y": 660
+    },
+    "n46": {
+      "id": "n46",
+      "name": "Padma",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n21",
+      "x": 4850,
+      "y": 660
+    },
+    "n47": {
+      "id": "n47",
+      "name": "Madhavi",
+      "nick": "",
+      "dob": "08 Sep 1971",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n44",
+      "x": 4302,
+      "y": 660
+    },
+    "n48": {
+      "id": "n48",
+      "name": "Satish Kolluri",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n45",
+      "x": 4664,
+      "y": 660
+    },
+    "n49": {
+      "id": "n49",
+      "name": "Vijay Raghavan",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n46",
+      "x": 5016,
+      "y": 660
+    },
+    "n50": {
+      "id": "n50",
+      "name": "Markandeyulu",
+      "nick": "Bhanu",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n23",
+      "x": 5202,
+      "y": 660
+    },
+    "n51": {
+      "id": "n51",
+      "name": "Ramadevi",
+      "nick": "Rama",
+      "dob": "",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n23",
+      "x": 5605.5,
+      "y": 660
+    },
+    "n52": {
+      "id": "n52",
+      "name": "Nerupama",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n50",
+      "x": 5368,
+      "y": 660
+    },
+    "n53": {
+      "id": "n53",
+      "name": "Prakash Shenoy",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n51",
+      "x": 5771.5,
+      "y": 660
+    },
+    "n54": {
+      "id": "n54",
+      "name": "Aadithya Krishna",
+      "nick": "Mols",
+      "dob": "16 Feb 1993",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n31",
+      "x": 1024,
+      "y": 840
+    },
+    "n55": {
+      "id": "n55",
+      "name": "Sushma Chandrika",
+      "nick": "",
+      "dob": "10 Jan 1981",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n29",
+      "x": 310,
+      "y": 840
+    },
+    "n56": {
+      "id": "n56",
+      "name": "Krishna Sandeep",
+      "nick": "Deepu",
+      "dob": "10 Dec 1985",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n29",
+      "x": 672,
+      "y": 840
+    },
+    "n57": {
+      "id": "n57",
+      "name": "Somashekar Sista",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n55",
+      "x": 476,
+      "y": 840
+    },
+    "n58": {
+      "id": "n58",
+      "name": "Raghu Poojitha",
+      "nick": "Poojitha",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n56",
+      "x": 838,
+      "y": 840
+    },
+    "n59": {
+      "id": "n59",
+      "name": "Sarath Sista",
+      "nick": "",
+      "dob": "19 Nov 2009",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n55",
+      "x": 300,
+      "y": 1020
+    },
+    "n60": {
+      "id": "n60",
+      "name": "Sanjay Sista",
+      "nick": "",
+      "dob": "06 May 2012",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n55",
+      "x": 486,
+      "y": 1020
+    },
+    "n61": {
+      "id": "n61",
+      "name": "Akhil Guntur",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n56",
+      "x": 755,
+      "y": 1020
+    },
+    "n62": {
+      "id": "n62",
+      "name": "Saaketha Krishna",
+      "nick": "",
+      "dob": "11 Nov 2002",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n31",
+      "x": 1210,
+      "y": 840
+    },
+    "n63": {
+      "id": "n63",
+      "name": "Rijutha Priya",
+      "nick": "Riju",
+      "dob": "30 Apr 1995",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n34",
+      "x": 1396,
+      "y": 840
+    },
+    "n64": {
+      "id": "n64",
+      "name": "Ahana",
+      "nick": "",
+      "dob": "18 Apr 2005",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n34",
+      "x": 1582,
+      "y": 840
+    },
+    "n65": {
+      "id": "n65",
+      "name": "Anurag Krishna",
+      "nick": "",
+      "dob": "21 Dec 1994",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n35",
+      "x": 1768,
+      "y": 840
+    },
+    "n66": {
+      "id": "n66",
+      "name": "Ananth Krishna",
+      "nick": "",
+      "dob": "17 Dec 2003",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n35",
+      "x": 2120,
+      "y": 840
+    },
+    "n67": {
+      "id": "n67",
+      "name": "Lakshmi Samanvitha",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n65",
+      "x": 1934,
+      "y": 840
+    },
+    "n68": {
+      "id": "n68",
+      "name": "Ranjani",
+      "nick": "",
+      "dob": "26 Apr 1994",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n37",
+      "x": 2658,
+      "y": 840
+    },
+    "n69": {
+      "id": "n69",
+      "name": "Kiran",
+      "nick": "",
+      "dob": "03 Jun 1995",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n37",
+      "x": 2844,
+      "y": 840
+    },
+    "n70": {
+      "id": "n70",
+      "name": "Kishore",
+      "nick": "",
+      "dob": "03 Jun 1995",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n37",
+      "x": 3030,
+      "y": 840
+    },
+    "n71": {
+      "id": "n71",
+      "name": "Prithvi Kumar",
+      "nick": "Prithu",
+      "dob": "29 Nov 1994",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n38",
+      "x": 3216,
+      "y": 840
+    },
+    "n72": {
+      "id": "n72",
+      "name": "Shruthi",
+      "nick": "",
+      "dob": "13 Oct 2000",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n38",
+      "x": 3568,
+      "y": 840
+    },
+    "n73": {
+      "id": "n73",
+      "name": "Sanjaysriram",
+      "nick": "",
+      "dob": "21 Nov 1998",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n40",
+      "x": 3754,
+      "y": 840
+    },
+    "n74": {
+      "id": "n74",
+      "name": "Shreyas",
+      "nick": "",
+      "dob": "15 Jun 2006",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n40",
+      "x": 3940,
+      "y": 840
+    },
+    "n75": {
+      "id": "n75",
+      "name": "Vamsi Krishna",
+      "nick": "",
+      "dob": "26 Dec 1997",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n44",
+      "x": 4126,
+      "y": 840
+    },
+    "n76": {
+      "id": "n76",
+      "name": "Vaibhav Krishna",
+      "nick": "",
+      "dob": "07 Jun 2003",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n44",
+      "x": 4312,
+      "y": 840
+    },
+    "n77": {
+      "id": "n77",
+      "name": "Aakash Kolluri",
+      "nick": "",
+      "dob": "06 Feb 1997",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n45",
+      "x": 4498,
+      "y": 840
+    },
+    "n78": {
+      "id": "n78",
+      "name": "Madeline",
+      "nick": "Maddy",
+      "dob": "21 Oct 1997",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n77",
+      "x": 4664,
+      "y": 840
+    },
+    "n79": {
+      "id": "n79",
+      "name": "Vishnu Raghavan",
+      "nick": "",
+      "dob": "26 Jan 1999",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n46",
+      "x": 4933,
+      "y": 840
+    },
+    "n80": {
+      "id": "n80",
+      "name": "Krishna Sandilya",
+      "nick": "",
+      "dob": "09 Jun 1997",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n50",
+      "x": 5202,
+      "y": 840
+    },
+    "n81": {
+      "id": "n81",
+      "name": "Lakshmi Prasanna",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n80",
+      "x": 5368,
+      "y": 840
+    },
+    "n82": {
+      "id": "n82",
+      "name": "Gayatri Bajaj",
+      "nick": "",
+      "dob": "15 Dec 1997",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n71",
+      "x": 3382,
+      "y": 840
+    },
+    "n83": {
+      "id": "n83",
+      "name": "Sharan Shenoy",
+      "nick": "",
+      "dob": "11 May 2000",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n51",
+      "x": 5554,
+      "y": 840
+    },
+    "n86": {
+      "id": "n86",
+      "name": "Shruthi Shenoy",
+      "nick": "",
+      "dob": "11 May 2000",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n51",
+      "x": 5740,
+      "y": 840
+    },
+    "n87": {
+      "id": "n87",
+      "name": "Karthik Shenoy",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "husband",
+      "parentId": "n86",
+      "x": 5906,
+      "y": 840
+    },
+    "n88": {
+      "id": "n88",
+      "name": "Kanishka",
+      "nick": "",
+      "dob": "07 May 2024",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n86",
+      "x": 5823,
+      "y": 1020
+    },
+    "n89": {
+      "id": "n89",
+      "name": "Hariharasastry",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n25",
+      "x": 6102,
+      "y": 660
+    },
+    "n90": {
+      "id": "n90",
+      "name": "Shivakumar",
+      "nick": "Kumar",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n25",
+      "x": 6464,
+      "y": 660
+    },
+    "n91": {
+      "id": "n91",
+      "name": "Babu",
+      "nick": "",
+      "dob": "",
+      "gender": "male",
+      "rel": "son",
+      "parentId": "n25",
+      "x": 6816,
+      "y": 660
+    },
+    "n92": {
+      "id": "n92",
+      "name": "Rama",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n89",
+      "x": 6268,
+      "y": 660
+    },
+    "n93": {
+      "id": "n93",
+      "name": "Vinitha",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n90",
+      "x": 6630,
+      "y": 660
+    },
+    "n94": {
+      "id": "n94",
+      "name": "Srilakshmi",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "wife",
+      "parentId": "n91",
+      "x": 6982,
+      "y": 660
+    },
+    "n95": {
+      "id": "n95",
+      "name": "Vyjayanthi",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n89",
+      "x": 6092,
+      "y": 840
+    },
+    "n96": {
+      "id": "n96",
+      "name": "Aishwarya",
+      "nick": "",
+      "dob": "",
+      "gender": "female",
+      "rel": "daughter",
+      "parentId": "n89",
+      "x": 6278,
+      "y": 840
+    }
+  },
+  "edges": [
+    {
+      "from": "root",
+      "to": "n1",
+      "type": "spouse"
+    },
+    {
+      "from": "root",
+      "to": "n8",
+      "type": "family"
+    },
+    {
+      "from": "root",
+      "to": "n9",
+      "type": "family"
+    },
+    {
+      "from": "n8",
+      "to": "n12",
+      "type": "spouse"
+    },
+    {
+      "from": "n9",
+      "to": "n13",
+      "type": "spouse"
+    },
+    {
+      "from": "root",
+      "to": "n21",
+      "type": "family"
+    },
+    {
+      "from": "n21",
+      "to": "n22",
+      "type": "spouse"
+    },
+    {
+      "from": "root",
+      "to": "n23",
+      "type": "family"
+    },
+    {
+      "from": "n23",
+      "to": "n24",
+      "type": "spouse"
+    },
+    {
+      "from": "root",
+      "to": "n25",
+      "type": "family"
+    },
+    {
+      "from": "root",
+      "to": "n26",
+      "type": "family"
+    },
+    {
+      "from": "n26",
+      "to": "n27",
+      "type": "spouse"
+    },
+    {
+      "from": "n25",
+      "to": "n28",
+      "type": "spouse"
+    },
+    {
+      "from": "n8",
+      "to": "n29",
+      "type": "family"
+    },
+    {
+      "from": "n29",
+      "to": "n30",
+      "type": "spouse"
+    },
+    {
+      "from": "n8",
+      "to": "n31",
+      "type": "family"
+    },
+    {
+      "from": "n31",
+      "to": "n33",
+      "type": "spouse"
+    },
+    {
+      "from": "n8",
+      "to": "n34",
+      "type": "family"
+    },
+    {
+      "from": "n8",
+      "to": "n35",
+      "type": "family"
+    },
+    {
+      "from": "n35",
+      "to": "n36",
+      "type": "spouse"
+    },
+    {
+      "from": "n9",
+      "to": "n37",
+      "type": "family"
+    },
+    {
+      "from": "n9",
+      "to": "n38",
+      "type": "family"
+    },
+    {
+      "from": "n34",
+      "to": "n39",
+      "type": "spouse"
+    },
+    {
+      "from": "n9",
+      "to": "n40",
+      "type": "family"
+    },
+    {
+      "from": "n37",
+      "to": "n41",
+      "type": "spouse"
+    },
+    {
+      "from": "n38",
+      "to": "n42",
+      "type": "spouse"
+    },
+    {
+      "from": "n40",
+      "to": "n43",
+      "type": "spouse"
+    },
+    {
+      "from": "n21",
+      "to": "n44",
+      "type": "family"
+    },
+    {
+      "from": "n21",
+      "to": "n45",
+      "type": "family"
+    },
+    {
+      "from": "n21",
+      "to": "n46",
+      "type": "family"
+    },
+    {
+      "from": "n44",
+      "to": "n47",
+      "type": "spouse"
+    },
+    {
+      "from": "n45",
+      "to": "n48",
+      "type": "spouse"
+    },
+    {
+      "from": "n46",
+      "to": "n49",
+      "type": "spouse"
+    },
+    {
+      "from": "n23",
+      "to": "n50",
+      "type": "family"
+    },
+    {
+      "from": "n23",
+      "to": "n51",
+      "type": "family"
+    },
+    {
+      "from": "n50",
+      "to": "n52",
+      "type": "spouse"
+    },
+    {
+      "from": "n51",
+      "to": "n53",
+      "type": "spouse"
+    },
+    {
+      "from": "n31",
+      "to": "n54",
+      "type": "family"
+    },
+    {
+      "from": "n29",
+      "to": "n55",
+      "type": "family"
+    },
+    {
+      "from": "n29",
+      "to": "n56",
+      "type": "family"
+    },
+    {
+      "from": "n55",
+      "to": "n57",
+      "type": "spouse"
+    },
+    {
+      "from": "n56",
+      "to": "n58",
+      "type": "spouse"
+    },
+    {
+      "from": "n55",
+      "to": "n59",
+      "type": "family"
+    },
+    {
+      "from": "n55",
+      "to": "n60",
+      "type": "family"
+    },
+    {
+      "from": "n56",
+      "to": "n61",
+      "type": "family"
+    },
+    {
+      "from": "n31",
+      "to": "n62",
+      "type": "family"
+    },
+    {
+      "from": "n34",
+      "to": "n63",
+      "type": "family"
+    },
+    {
+      "from": "n34",
+      "to": "n64",
+      "type": "family"
+    },
+    {
+      "from": "n35",
+      "to": "n65",
+      "type": "family"
+    },
+    {
+      "from": "n35",
+      "to": "n66",
+      "type": "family"
+    },
+    {
+      "from": "n65",
+      "to": "n67",
+      "type": "spouse"
+    },
+    {
+      "from": "n37",
+      "to": "n68",
+      "type": "family"
+    },
+    {
+      "from": "n37",
+      "to": "n69",
+      "type": "family"
+    },
+    {
+      "from": "n37",
+      "to": "n70",
+      "type": "family"
+    },
+    {
+      "from": "n38",
+      "to": "n71",
+      "type": "family"
+    },
+    {
+      "from": "n38",
+      "to": "n72",
+      "type": "family"
+    },
+    {
+      "from": "n40",
+      "to": "n73",
+      "type": "family"
+    },
+    {
+      "from": "n40",
+      "to": "n74",
+      "type": "family"
+    },
+    {
+      "from": "n44",
+      "to": "n75",
+      "type": "family"
+    },
+    {
+      "from": "n44",
+      "to": "n76",
+      "type": "family"
+    },
+    {
+      "from": "n45",
+      "to": "n77",
+      "type": "family"
+    },
+    {
+      "from": "n77",
+      "to": "n78",
+      "type": "spouse"
+    },
+    {
+      "from": "n46",
+      "to": "n79",
+      "type": "family"
+    },
+    {
+      "from": "n50",
+      "to": "n80",
+      "type": "family"
+    },
+    {
+      "from": "n80",
+      "to": "n81",
+      "type": "spouse"
+    },
+    {
+      "from": "n71",
+      "to": "n82",
+      "type": "spouse"
+    },
+    {
+      "from": "n51",
+      "to": "n83",
+      "type": "family"
+    },
+    {
+      "from": "n51",
+      "to": "n86",
+      "type": "family"
+    },
+    {
+      "from": "n86",
+      "to": "n87",
+      "type": "spouse"
+    },
+    {
+      "from": "n86",
+      "to": "n88",
+      "type": "family"
+    },
+    {
+      "from": "n25",
+      "to": "n89",
+      "type": "family"
+    },
+    {
+      "from": "n25",
+      "to": "n90",
+      "type": "family"
+    },
+    {
+      "from": "n25",
+      "to": "n91",
+      "type": "family"
+    },
+    {
+      "from": "n89",
+      "to": "n92",
+      "type": "spouse"
+    },
+    {
+      "from": "n90",
+      "to": "n93",
+      "type": "spouse"
+    },
+    {
+      "from": "n91",
+      "to": "n94",
+      "type": "spouse"
+    },
+    {
+      "from": "n89",
+      "to": "n95",
+      "type": "family"
+    },
+    {
+      "from": "n89",
+      "to": "n96",
+      "type": "family"
+    }
+  ],
+  "nextId": 97
+}

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garimella Family Tree</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f0eb;
+    min-height: 100vh;
+    overflow: auto;
+  }
+
+  #toolbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #2c1a0e;
+    color: #f5e6d0;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+
+  #toolbar h1 { font-size: 1.1rem; font-weight: 600; letter-spacing: 0.5px; }
+
+  #toolbar .sep { width: 1px; height: 24px; background: rgba(255,255,255,0.2); }
+
+  #toolbar button {
+    background: rgba(255,255,255,0.1);
+    color: #f5e6d0;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.15s;
+  }
+  #toolbar button:hover { background: rgba(255,255,255,0.2); }
+
+  #canvas-wrap {
+    margin-top: 52px;
+    width: 100%;
+    min-height: calc(100vh - 52px);
+    position: relative;
+    overflow: auto;
+  }
+
+  #canvas {
+    position: relative;
+    width: 4000px;
+    height: 3000px;
+  }
+
+  svg#lines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  .node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    min-height: 64px;
+    border-radius: 10px;
+    border: 2px solid rgba(0,0,0,0.15);
+    padding: 8px 10px;
+    cursor: grab;
+    user-select: none;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    transition: box-shadow 0.15s;
+  }
+  .node:hover { box-shadow: 0 6px 18px rgba(0,0,0,0.28); }
+  body.dragging-node { cursor: grabbing !important; }
+  body.dragging-node .node { cursor: grabbing !important; }
+
+  .node.male   { background: linear-gradient(135deg, #a8c8f0, #6ba3d6); color: #0a2540; border-color: #4a86c0; }
+  .node.female { background: linear-gradient(135deg, #f5b8d0, #e8789a); color: #3a0a1a; border-color: #d05880; }
+  .node.root   { border-width: 3px; box-shadow: 0 4px 18px rgba(0,0,0,0.3); }
+
+  .node .name  { font-weight: 600; font-size: 0.82rem; line-height: 1.3; }
+  .node .nick  { font-size: 0.72rem; opacity: 0.75; margin-top: 2px; font-style: italic; }
+  .node .rel   { font-size: 0.68rem; margin-top: 4px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.5px; }
+  .node .dob   { font-size: 0.66rem; margin-top: 3px; opacity: 0.72; }
+
+  .node.selected {
+    outline: 3px solid #f0c040;
+    outline-offset: 2px;
+  }
+
+  .node .actions {
+    display: none;
+    position: absolute;
+    bottom: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2c1a0e;
+    border-radius: 6px;
+    padding: 4px 6px;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  }
+  .node.selected .actions { display: flex; gap: 4px; }
+
+  .actions button {
+    background: rgba(255,255,255,0.12);
+    color: #f5e6d0;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 7px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .actions button:hover { background: rgba(255,255,255,0.28); }
+
+  /* Modal */
+  #modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  #modal-overlay.open { display: flex; }
+
+  #modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    width: 360px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  }
+  #modal h2 { margin-bottom: 18px; font-size: 1.1rem; color: #2c1a0e; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 5px; color: #444; }
+  .field input, .field select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus, .field select:focus { border-color: #6ba3d6; }
+
+  .modal-btns { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+  .modal-btns button {
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  #btn-cancel { background: #eee; color: #555; }
+  #btn-cancel:hover { background: #ddd; }
+  #btn-save { background: #2c6fad; color: #fff; }
+  #btn-save:hover { background: #1e5490; }
+
+  /* Edit modal extras */
+  #btn-delete { background: #c0392b; color: #fff; margin-right: auto; }
+  #btn-delete:hover { background: #96281b; }
+
+  .hint { font-size: 0.75rem; color: #888; margin-top: 3px; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <h1>Garimella Family Tree</h1>
+  <div class="sep"></div>
+  <button onclick="tidy()">Tidy Layout</button>
+  <button onclick="resetView()">Center View</button>
+  <button onclick="exportJSON()">Export</button>
+  <button onclick="importJSON()">Import</button>
+  <div class="sep"></div>
+  <button id="btn-lock" onclick="unlock()">🔒 Unlock to edit</button>
+  <button id="btn-cloudsave" onclick="saveCloud()" style="display:none">☁ Save changes</button>
+  <button id="btn-publish" onclick="publish()" style="display:none" title="Copy your master copy over the shared community copy">Publish → Community</button>
+  <button id="btn-lock-exit" onclick="lockAgain()" style="display:none">Lock</button>
+  <span id="status" style="margin-left:auto;font-size:0.74rem;opacity:0.7">View only</span>
+</div>
+
+<div id="canvas-wrap">
+  <div id="canvas">
+    <svg id="lines"></svg>
+  </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div id="modal-overlay">
+  <div id="modal">
+    <h2 id="modal-title">Add Family Member</h2>
+    <div class="field">
+      <label>Relationship to selected person</label>
+      <select id="rel-select">
+        <option value="wife">Wife</option>
+        <option value="husband">Husband</option>
+        <option value="son">Son</option>
+        <option value="daughter">Daughter</option>
+        <option value="brother">Brother</option>
+        <option value="sister">Sister</option>
+        <option value="father">Father</option>
+        <option value="mother">Mother</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Full Name</label>
+      <input id="inp-name" type="text" placeholder="e.g. Ravi Garimella" />
+    </div>
+    <div class="field">
+      <label>Nickname <span style="font-weight:400;color:#888">(optional)</span></label>
+      <input id="inp-nick" type="text" placeholder="e.g. Ravi" />
+      <div class="hint">Displayed in (brackets) under the name</div>
+    </div>
+    <div class="field">
+      <label>Date of Birth <span style="font-weight:400;color:#888">(optional)</span></label>
+      <input id="inp-dob" type="text" placeholder="e.g. 1950 or 15 Mar 1950" />
+      <div class="hint">Siblings are ordered oldest → youngest by this date</div>
+    </div>
+    <div class="modal-btns">
+      <button id="btn-delete" style="display:none" onclick="deleteNode()">Delete</button>
+      <button id="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button id="btn-save" onclick="saveNode()">Add</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Cloud config ────────────────────────────────────────────────────────────
+// Paste your Google Apps Script Web App URL here after deploying (see Code.gs).
+// Leave it as '' to run fully offline (saves only to this browser).
+const API_URL = 'https://script.google.com/macros/s/AKfycbzVUFUKyBTOTeVNp2v7xPl6ZPkKqT4UElAAJ4RUyQnTe5ucXl9V1SE7N0ZIxtOE_qHY/exec';
+
+let role         = null;          // null = view-only, 'editor' = community, 'owner' = master
+let authPassword = '';            // remembered after a successful unlock
+let currentWhich = 'community';   // which cloud copy is currently loaded
+let dirty        = false;         // unsaved cloud changes?
+
+// Editable when unlocked with a password, OR when running offline (no backend yet).
+function canEdit() { return role !== null || !API_URL; }
+
+// ─── Data ────────────────────────────────────────────────────────────────────
+let nodes = {};   // id -> {id, name, nick, gender, rel, x, y, parentId}
+let edges = [];   // [{from, to, type}]
+let nextId = 1;
+let editingNodeId = null;
+let addingToNodeId = null;
+let selectedNodeId = null;
+
+function selectNode(id) {
+  selectedNodeId = id;
+  document.querySelectorAll('.node').forEach(el => el.classList.remove('selected'));
+  if (id) {
+    const el = document.getElementById('node-' + id);
+    if (el) el.classList.add('selected');
+  }
+}
+
+document.getElementById('canvas-wrap').addEventListener('mousedown', e => {
+  if (!e.target.closest('.node')) selectNode(null);
+});
+
+const MALE_RELS   = ['husband','son','brother','father'];
+const FEMALE_RELS = ['wife','daughter','sister','mother'];
+
+function genderForRel(rel) {
+  return MALE_RELS.includes(rel) ? 'male' : 'female';
+}
+
+// ─── Geometry ────────────────────────────────────────────────────────────────
+const NODE_W = 140, NODE_H = 70;
+const SPOUSE_GAP  = 26;    // gap between partners inside a couple
+const SIBLING_GAP = 46;    // gap between adjacent sibling subtrees
+const ROW_HEIGHT  = 180;   // vertical distance between generations
+const TOP_MARGIN  = 300, LEFT_MARGIN = 300;
+
+const SPOUSE_RELS = ['wife','husband'];
+const CHILD_RELS  = ['son','daughter'];
+const SIB_RELS    = ['brother','sister'];
+const PARENT_RELS = ['father','mother'];
+
+function relDelta(rel) {
+  if (CHILD_RELS.includes(rel))  return  1;
+  if (PARENT_RELS.includes(rel)) return -1;
+  return 0; // spouse / sibling share a generation
+}
+
+function idNum(id) { return id === 'root' ? 0 : (parseInt(id.slice(1), 10) || 0); }
+
+// Sortable birth-date key (ms). Accepts full dates ("15 Mar 1950", "1950-03-15")
+// or a bare year. Returns null when unknown/unparseable.
+function dobKey(id) {
+  const d = nodes[id] && nodes[id].dob;
+  if (!d) return null;
+  const t = Date.parse(d);
+  if (!isNaN(t)) return t;
+  const y = String(d).match(/\d{4}/);
+  return y ? Date.parse(y[0] + '-01-01') : null;
+}
+
+// Oldest → youngest, with unknown dates kept last (in id order).
+function siblingCompare(coupleA, coupleB) {
+  const ka = dobKey(coupleA.members[0]);
+  const kb = dobKey(coupleB.members[0]);
+  if (ka != null && kb != null) return ka - kb;
+  if (ka != null) return -1;
+  if (kb != null) return 1;
+  return idNum(coupleA.members[0]) - idNum(coupleB.members[0]);
+}
+
+// ─── Family model ────────────────────────────────────────────────────────────
+// Rebuilt whenever the set of people/relationships changes. Groups people into
+// couples and links each couple to its parent couple so layout can run a tidy
+// generational tree. Positions are NOT part of the model.
+let model = null;
+
+function buildModel() {
+  const ids = Object.keys(nodes);
+
+  // Union-find over node ids → couples (a person + their spouse(s))
+  const uf = {}; ids.forEach(id => uf[id] = id);
+  const find = a => { while (uf[a] !== a) { uf[a] = uf[uf[a]]; a = uf[a]; } return a; };
+  const union = (a,b) => { uf[find(a)] = find(b); };
+  ids.forEach(id => {
+    const n = nodes[id];
+    if (n.parentId && SPOUSE_RELS.includes(n.rel)) union(id, n.parentId);
+  });
+
+  // Generation number for each node (root = 0)
+  const genOf = {};
+  const gen = id => {
+    if (id in genOf) return genOf[id];
+    const n = nodes[id];
+    return genOf[id] = n.parentId ? gen(n.parentId) + relDelta(n.rel) : 0;
+  };
+  ids.forEach(gen);
+
+  // Assemble couples keyed by representative id
+  const couples = {};
+  ids.forEach(id => {
+    const rep = find(id);
+    (couples[rep] || (couples[rep] = { id: rep, members: [], gen: 0 })).members.push(id);
+  });
+  Object.values(couples).forEach(c => {
+    // anchor (non-spouse) first, then spouses; stable by id
+    c.members.sort((a,b) => {
+      const aS = SPOUSE_RELS.includes(nodes[a].rel) ? 1 : 0;
+      const bS = SPOUSE_RELS.includes(nodes[b].rel) ? 1 : 0;
+      return aS !== bS ? aS - bS : idNum(a) - idNum(b);
+    });
+    c.gen = genOf[c.members[0]];
+  });
+  const coupleOf = id => find(id);
+
+  // Union-find over couples → sibling groups; plus couple→parent-couple links
+  const creps = Object.keys(couples);
+  const cuf = {}; creps.forEach(r => cuf[r] = r);
+  const cfind = a => { while (cuf[a] !== a) { cuf[a] = cuf[cuf[a]]; a = cuf[a]; } return a; };
+  const cunion = (a,b) => { cuf[cfind(a)] = cfind(b); };
+
+  const coupleParent = {};
+  ids.forEach(id => {
+    const n = nodes[id];
+    if (!n.parentId) return;
+    const c = coupleOf(id), pc = coupleOf(n.parentId);
+    if (CHILD_RELS.includes(n.rel))       coupleParent[c]  = pc;  // id is a child of parentId
+    else if (PARENT_RELS.includes(n.rel)) coupleParent[pc] = c;   // id is a parent of parentId
+    else if (SIB_RELS.includes(n.rel))    cunion(c, pc);          // shared parents
+  });
+
+  // Share a known parent across every couple in the same sibling group
+  const groupParent = {};
+  creps.forEach(r => {
+    if (coupleParent[r] != null) {
+      const g = cfind(r);
+      if (groupParent[g] == null) groupParent[g] = coupleParent[r];
+    }
+  });
+  creps.forEach(r => {
+    const g = cfind(r);
+    if (coupleParent[r] == null && groupParent[g] != null) coupleParent[r] = groupParent[g];
+  });
+
+  // Children lists, siblings ordered by anchor id
+  const children = {}; creps.forEach(r => children[r] = []);
+  creps.forEach(r => {
+    const p = coupleParent[r];
+    if (p != null && p !== r && children[p]) children[p].push(r);
+  });
+  creps.forEach(r => children[r].sort((a,b) => siblingCompare(couples[a], couples[b])));
+
+  const roots = creps.filter(r => coupleParent[r] == null || coupleParent[r] === r)
+                     .sort((a,b) => siblingCompare(couples[a], couples[b]));
+
+  model = { couples, coupleOf, genOf, children, coupleParent, roots };
+  return model;
+}
+
+function coupleWidth(c) {
+  const m = c.members.length;
+  return m * NODE_W + (m - 1) * SPOUSE_GAP;
+}
+
+// ─── Auto layout (tidy generational tree) ────────────────────────────────────
+function autoLayout() {
+  buildModel();
+  const { couples, children, roots } = model;
+  const cx = {};                 // coupleRep → left x of the couple block
+  const seen = new Set();
+
+  function shift(rep, dx) {
+    if (cx[rep] == null) return;
+    cx[rep] += dx;
+    children[rep].forEach(k => shift(k, dx));
+  }
+
+  function layout(rep, leftX) {
+    if (seen.has(rep)) return coupleWidth(couples[rep]); // guard against bad cycles
+    seen.add(rep);
+    const c = couples[rep], cw = coupleWidth(c), kids = children[rep];
+    if (!kids.length) { cx[rep] = leftX; return cw; }
+
+    let cursor = leftX;
+    kids.forEach(k => { cursor += layout(k, cursor) + SIBLING_GAP; });
+    let childrenRight = cursor - SIBLING_GAP;   // true right edge of the children block
+
+    const firstK = couples[kids[0]], lastK = couples[kids[kids.length - 1]];
+    const childMin = cx[kids[0]] + coupleWidth(firstK) / 2;
+    const childMax = cx[kids[kids.length - 1]] + coupleWidth(lastK) / 2;
+    let left = (childMin + childMax) / 2 - cw / 2;
+
+    if (left < leftX) {              // couple wider than its children — push kids right
+      const dx = leftX - left;
+      kids.forEach(k => shift(k, dx));
+      childrenRight += dx;
+      left = leftX;
+    }
+    cx[rep] = left;
+    const right = Math.max(left + cw, childrenRight);
+    return right - leftX;
+  }
+
+  let cursor = LEFT_MARGIN;
+  roots.forEach(r => { cursor += layout(r, cursor) + SIBLING_GAP * 2; });
+
+  const gens = Object.values(couples).map(c => c.gen);
+  const minGen = gens.length ? Math.min(...gens) : 0;
+
+  Object.values(couples).forEach(c => {
+    const left = cx[c.id] ?? LEFT_MARGIN;
+    const y = TOP_MARGIN + (c.gen - minGen) * ROW_HEIGHT;
+    c.members.forEach((mid, i) => {
+      nodes[mid].x = left + i * (NODE_W + SPOUSE_GAP);
+      nodes[mid].y = y;
+    });
+  });
+}
+
+// Live-position helpers (used while dragging)
+function coupleCenterX(c) {
+  return c.members.reduce((s, m) => s + nodes[m].x + NODE_W / 2, 0) / c.members.length;
+}
+function coupleTop(c)    { return Math.min(...c.members.map(m => nodes[m].y)); }
+function coupleBottom(c) { return Math.max(...c.members.map(m => nodes[m].y)) + NODE_H; }
+// The blood descendant a couple connects up through is the anchor (members[0]);
+// the spouse is married-in, so the parent line attaches to the anchor, not the midpoint.
+function anchorCenterX(c) { return nodes[c.members[0]].x + NODE_W / 2; }
+
+// ─── Lines ───────────────────────────────────────────────────────────────────
+function svgLine(svg, x1, y1, x2, y2, stroke, width, dash) {
+  const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',x1); l.setAttribute('y1',y1);
+  l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+  l.setAttribute('stroke', stroke);
+  l.setAttribute('stroke-width', width);
+  if (dash) l.setAttribute('stroke-dasharray', dash);
+  svg.appendChild(l);
+}
+
+// Grow the canvas (and therefore the SVG) to fit the whole tree so nothing
+// gets clipped as it gets large.
+function fitCanvas() {
+  let maxX = 1200, maxY = 900;
+  Object.values(nodes).forEach(n => {
+    maxX = Math.max(maxX, n.x + NODE_W);
+    maxY = Math.max(maxY, n.y + NODE_H);
+  });
+  const canvas = document.getElementById('canvas');
+  canvas.style.width  = (maxX + 400) + 'px';
+  canvas.style.height = (maxY + 400) + 'px';
+}
+
+function renderLines() {
+  fitCanvas();
+  const svg = document.getElementById('lines');
+  svg.innerHTML = '';
+  if (!model) buildModel();
+  const { couples, children } = model;
+
+  // Spouse connectors (solid horizontal between partners)
+  Object.values(couples).forEach(c => {
+    for (let i = 0; i < c.members.length - 1; i++) {
+      const a = nodes[c.members[i]], b = nodes[c.members[i + 1]];
+      svgLine(svg, a.x + NODE_W, a.y + NODE_H / 2, b.x, b.y + NODE_H / 2, '#c0a080', 2.5);
+    }
+  });
+
+  // Couple → children branches off the midpoint of the couple line
+  Object.values(couples).forEach(c => {
+    const kids = children[c.id];
+    if (!kids || !kids.length) return;
+
+    const px      = coupleCenterX(c);
+    const pBottom = coupleBottom(c);
+    const kidTopY = Math.min(...kids.map(k => coupleTop(couples[k])));
+    const busY    = (pBottom + kidTopY) / 2;
+
+    svgLine(svg, px, pBottom, px, busY, '#7aabcc', 1.5);
+
+    const kidXs = kids.map(k => anchorCenterX(couples[k]));
+    if (kids.length > 1) {
+      svgLine(svg, Math.min(...kidXs), busY, Math.max(...kidXs), busY, '#7aabcc', 1.5);
+    }
+    kids.forEach(k => {
+      const kx = anchorCenterX(couples[k]);
+      svgLine(svg, kx, busY, kx, coupleTop(couples[k]), '#7aabcc', 1.5);
+    });
+  });
+}
+
+// ─── Render ──────────────────────────────────────────────────────────────────
+function render() {
+  const canvas = document.getElementById('canvas');
+  canvas.querySelectorAll('.node').forEach(el => el.remove());
+  renderLines();
+
+  // Draw nodes
+  Object.values(nodes).forEach(n => {
+    const el = document.createElement('div');
+    el.className = 'node ' + n.gender + (n.id === 'root' ? ' root' : '');
+    el.id = 'node-' + n.id;
+    el.style.left = n.x + 'px';
+    el.style.top  = n.y + 'px';
+
+    el.innerHTML = `
+      <div class="name">${escHtml(n.name)}</div>
+      ${n.nick ? `<div class="nick">(${escHtml(n.nick)})</div>` : ''}
+      ${n.dob ? `<div class="dob">b. ${escHtml(n.dob)}</div>` : ''}
+      ${canEdit() ? `<div class="actions">
+        <button onclick="openAdd(event,'${n.id}')">+ Add</button>
+        <button onclick="openEdit(event,'${n.id}')">Edit</button>
+      </div>` : ''}`;
+
+    el.addEventListener('mousedown', e => {
+      if (e.button !== 0) return;
+      e.stopPropagation();
+      startDrag(e, n.id);
+    });
+
+    if (selectedNodeId === n.id) el.classList.add('selected');
+
+    document.getElementById('canvas').appendChild(el);
+  });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Drag ────────────────────────────────────────────────────────────────────
+let drag = null;
+
+function startDrag(e, nodeId) {
+  if (!model) buildModel();
+  const rep = model.coupleOf(nodeId);
+
+  // Couple moves together; Shift-drag moves the whole branch (couple + descendants)
+  const reps = [rep];
+  if (e.shiftKey) {
+    const stack = [rep];
+    while (stack.length) {
+      const r = stack.pop();
+      (model.children[r] || []).forEach(k => { reps.push(k); stack.push(k); });
+    }
+  }
+  const moveIds = [];
+  if (canEdit()) reps.forEach(r => model.couples[r].members.forEach(m => moveIds.push(m)));
+
+  drag = {
+    primary: nodeId,
+    moveIds,
+    orig: Object.fromEntries(moveIds.map(id => [id, { x: nodes[id].x, y: nodes[id].y }])),
+    startClientX: e.clientX,
+    startClientY: e.clientY,
+    moved: false
+  };
+  document.body.classList.add('dragging-node');
+}
+
+document.addEventListener('mousemove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.startClientX;
+  if (!drag.moved && Math.abs(dx) < 4) return;
+  drag.moved = true;
+
+  if (!drag.moveIds.length) return;
+  // Horizontal-only: each generation stays locked to its row (y unchanged)
+  drag.moveIds.forEach(id => {
+    const node = nodes[id];
+    node.x = drag.orig[id].x + dx;
+    const el = document.getElementById('node-' + id);
+    if (el) el.style.left = node.x + 'px';
+  });
+  renderLines();
+});
+
+document.addEventListener('mouseup', e => {
+  if (!drag) return;
+  document.body.classList.remove('dragging-node');
+  if (!drag.moved) {
+    selectNode(selectedNodeId === drag.primary ? null : drag.primary);
+  } else {
+    save();
+    markDirty();
+  }
+  drag = null;
+});
+
+// ─── Modal ───────────────────────────────────────────────────────────────────
+function openAdd(e, nodeId) {
+  e.stopPropagation();
+  if (!canEdit()) return;
+  addingToNodeId = nodeId;
+  editingNodeId  = null;
+  document.getElementById('modal-title').textContent = 'Add Family Member';
+  document.getElementById('rel-select').style.display = '';
+  document.getElementById('rel-select').parentElement.style.display = '';
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-nick').value = '';
+  document.getElementById('inp-dob').value = '';
+  document.getElementById('btn-save').textContent = 'Add';
+  document.getElementById('btn-delete').style.display = 'none';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('inp-name').focus();
+}
+
+function openEdit(e, nodeId) {
+  e.stopPropagation();
+  if (!canEdit()) return;
+  editingNodeId  = nodeId;
+  addingToNodeId = null;
+  const n = nodes[nodeId];
+  document.getElementById('modal-title').textContent = 'Edit Person';
+  document.getElementById('rel-select').parentElement.style.display = 'none';
+  document.getElementById('inp-name').value = n.name;
+  document.getElementById('inp-nick').value = n.nick || '';
+  document.getElementById('inp-dob').value = n.dob || '';
+  document.getElementById('btn-save').textContent = 'Save';
+  document.getElementById('btn-delete').style.display = nodeId === 'root' ? 'none' : 'inline-block';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('inp-name').focus();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  editingNodeId = addingToNodeId = null;
+  selectNode(null);
+}
+
+function saveNode() {
+  const name = document.getElementById('inp-name').value.trim();
+  if (!name) { document.getElementById('inp-name').focus(); return; }
+  const nick = document.getElementById('inp-nick').value.trim();
+  const dob  = document.getElementById('inp-dob').value.trim();
+
+  if (editingNodeId) {
+    const prevDob = nodes[editingNodeId].dob || '';
+    nodes[editingNodeId].name = name;
+    nodes[editingNodeId].nick = nick;
+    nodes[editingNodeId].dob  = dob;
+    closeModal();
+    if (dob !== prevDob) layoutKeepingView(editingNodeId);  // birth date affects sibling order
+    else render();
+    save();
+    markDirty();
+    return;
+  }
+
+  const rel    = document.getElementById('rel-select').value;
+  const gender = genderForRel(rel);
+  const id     = 'n' + (nextId++);
+  const focus  = addingToNodeId;
+
+  nodes[id] = { id, name, nick, dob, gender, rel, parentId: addingToNodeId, x: 0, y: 0 };
+  const edgeType = SPOUSE_RELS.includes(rel) ? 'spouse' : 'family';
+  edges.push({ from: addingToNodeId, to: id, type: edgeType });
+
+  closeModal();
+  // Re-tidy the whole tree (no overlaps) but keep the cell we added to fixed on
+  // screen, so adding a spouse/child doesn't make the tree appear to jump.
+  layoutKeepingView(focus);
+  save();
+  markDirty();
+}
+
+// Run auto-layout, then scroll so `focusId` stays at the same screen position.
+function layoutKeepingView(focusId) {
+  const wrap = document.getElementById('canvas-wrap');
+  const node = nodes[focusId];
+  const offX = node ? node.x - wrap.scrollLeft : null;
+  const offY = node ? node.y - wrap.scrollTop  : null;
+  autoLayout();
+  render();
+  if (node) {
+    wrap.scrollLeft = node.x - offX;
+    wrap.scrollTop  = node.y - offY;
+  }
+}
+
+function deleteNode() {
+  if (!editingNodeId || editingNodeId === 'root') return;
+  // Remove subtree
+  function collectIds(id) {
+    let ids = [id];
+    Object.values(nodes).filter(n => n.parentId === id).forEach(c => {
+      ids = ids.concat(collectIds(c.id));
+    });
+    return ids;
+  }
+  const toRemove = new Set(collectIds(editingNodeId));
+  toRemove.forEach(id => delete nodes[id]);
+  edges = edges.filter(e => !toRemove.has(e.from) && !toRemove.has(e.to));
+  closeModal();
+  autoLayout();
+  render();
+  save();
+  markDirty();
+}
+
+// ─── Persistence ─────────────────────────────────────────────────────────────
+function save() {
+  localStorage.setItem('familyTree', JSON.stringify({ nodes, edges, nextId }));
+}
+
+function load() {
+  const raw = localStorage.getItem('familyTree');
+  if (raw) {
+    const d = JSON.parse(raw);
+    nodes  = d.nodes;
+    edges  = d.edges;
+    nextId = d.nextId;
+  } else {
+    initRoot();
+  }
+}
+
+function initRoot() {
+  nodes = {};
+  edges = [];
+  nextId = 1;
+  nodes['root'] = {
+    id: 'root', name: 'Markandeyulu Garimella Sr.', nick: '',
+    gender: 'male', rel: null, parentId: null,
+    x: 1930, y: 1440
+  };
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify({nodes,edges,nextId},null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'garimella_family_tree.json';
+  a.click();
+}
+
+function importJSON() {
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = '.json';
+  inp.onchange = e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      const d = JSON.parse(ev.target.result);
+      nodes = d.nodes; edges = d.edges; nextId = d.nextId;
+      autoLayout(); render(); resetView(); save(); markDirty();
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+function tidy() {
+  autoLayout();
+  render();
+  resetView();
+  save();
+  markDirty();
+}
+
+function resetView() {
+  const root = nodes['root'];
+  if (!root) return;
+  const wrap = document.getElementById('canvas-wrap');
+  wrap.scrollLeft = root.x - wrap.clientWidth/2 + NODE_W/2;
+  wrap.scrollTop  = root.y - wrap.clientHeight/2 + NODE_H/2;
+}
+
+// ─── Cloud sync (Google Apps Script backend) ─────────────────────────────────
+async function apiGet() {
+  const res = await fetch(API_URL + '?t=' + Date.now());
+  return res.json();
+}
+async function apiPost(payload) {
+  // text/plain avoids a CORS preflight; Apps Script parses the JSON body itself
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+  return res.json();
+}
+
+function setData(d) {
+  if (d && d.nodes && Object.keys(d.nodes).length) {
+    nodes = d.nodes; edges = d.edges || []; nextId = d.nextId || 1;
+    return true;
+  }
+  return false;
+}
+
+async function unlock() {
+  if (!API_URL) { alert('No backend configured yet. See Code.gs / DEPLOY.md to set this up.'); return; }
+  const pw = prompt('Enter the edit password:');
+  if (!pw) return;
+  let r;
+  try { r = await apiPost({ action: 'check', password: pw }); }
+  catch (e) { alert('Could not reach the server.'); return; }
+  if (!r.ok) { alert('Wrong password.'); return; }
+
+  authPassword = pw;
+  role = r.role;                                   // 'owner' or 'editor'
+  currentWhich = role === 'owner' ? 'master' : 'community';
+
+  // Load the copy this role edits
+  try {
+    const d = await apiPost({ action: 'load', password: pw, which: currentWhich });
+    if (d.ok) setData(d.data);
+  } catch (e) { /* keep whatever is on screen */ }
+
+  dirty = false;
+  autoLayout(); render(); resetView(); updateUI();
+}
+
+function lockAgain() {
+  if (dirty && !confirm('You have unsaved changes. Lock anyway?')) return;
+  role = null; authPassword = ''; dirty = false;
+  loadCommunityOrLocal().then(() => { autoLayout(); render(); resetView(); updateUI(); });
+}
+
+async function saveCloud() {
+  if (!role) return;
+  setStatus('Saving…');
+  try {
+    const r = await apiPost({ action: 'save', password: authPassword, which: currentWhich, data: { nodes, edges, nextId } });
+    if (r.ok) { dirty = false; updateUI(); setStatus(savedLabel()); }
+    else { alert(r.error || 'Save failed.'); updateUI(); }
+  } catch (e) { alert('Could not reach the server.'); updateUI(); }
+}
+
+async function publish() {
+  if (role !== 'owner') return;
+  if (!confirm('Copy your MASTER copy over the shared COMMUNITY copy? This replaces what family members currently see.')) return;
+  try {
+    const r = await apiPost({ action: 'publish', password: authPassword });
+    alert(r.ok ? 'Published to community.' : (r.error || 'Failed.'));
+  } catch (e) { alert('Could not reach the server.'); }
+}
+
+function markDirty() {
+  if (!role) return;
+  dirty = true;
+  updateUI();
+}
+
+function savedLabel() {
+  const where = currentWhich === 'master' ? 'master (your copy)' : 'community (shared)';
+  return (role === 'owner' ? 'Owner' : 'Editor') + ' · editing ' + where + ' · all saved';
+}
+function setStatus(t) { document.getElementById('status').textContent = t; }
+
+function updateUI() {
+  const lock = document.getElementById('btn-lock');
+  const csave = document.getElementById('btn-cloudsave');
+  const pub = document.getElementById('btn-publish');
+  const exit = document.getElementById('btn-lock-exit');
+
+  if (!role) {
+    lock.style.display = API_URL ? '' : 'none';
+    csave.style.display = pub.style.display = exit.style.display = 'none';
+    setStatus(API_URL ? 'View only — click Unlock to edit' : 'Offline — editing this browser only');
+  } else {
+    lock.style.display = 'none';
+    csave.style.display = exit.style.display = '';
+    pub.style.display = role === 'owner' ? '' : 'none';
+    csave.textContent = dirty ? '☁ Save changes •' : '☁ Save changes';
+    setStatus(dirty ? (savedLabel().replace('all saved', 'UNSAVED changes')) : savedLabel());
+  }
+}
+
+// Load the shared community copy (or fall back to this browser's local data).
+async function loadCommunityOrLocal() {
+  if (API_URL) {
+    try {
+      const d = await apiGet();
+      if (setData(d)) return;
+    } catch (e) { /* offline → fall through */ }
+  }
+  load();   // localStorage or seed
+}
+
+// ─── Keyboard ────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if ((e.key === 'Enter') && document.getElementById('modal-overlay').classList.contains('open')) {
+    saveNode();
+  }
+});
+
+window.addEventListener('beforeunload', e => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+(async function init() {
+  await loadCommunityOrLocal();
+  autoLayout();
+  render();
+  updateUI();
+  setTimeout(resetView, 100);
+})();
+</script>
+</body>
+</html>
